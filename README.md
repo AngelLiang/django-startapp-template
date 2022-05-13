@@ -23,3 +23,7 @@
 ├─urls.py       # URL路由
 └─views.py      # 视图代码
 ```
+
+## 参考资料
+
+- https://docs.djangoproject.com/en/2.2/ref/django-admin/#startapp
