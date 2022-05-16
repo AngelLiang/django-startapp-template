@@ -1,0 +1,6 @@
+django-simpleui
+django-environ
+whitenoise
+waitress
+djangorestframework
+djangorestframework-camel-case
