@@ -132,3 +132,4 @@ dmypy.json
 dist/
 
 my_project/
+my_app/
