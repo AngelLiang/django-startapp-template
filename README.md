@@ -1,5 +1,9 @@
 # django bootstrap template
 
+A template for django startproject and startapp.
+
+一份django项目启动模板，使用 startproject 和 startapp 命令创建
+
 ## 使用示例
 
     # 使用 startproject_template 创建django项目模板
