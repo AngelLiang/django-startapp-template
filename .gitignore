@@ -130,3 +130,5 @@ dmypy.json
 
 *.sqlite3
 dist/
+
+my_project/
