@@ -16,7 +16,7 @@ class {{camel_case_app_name}}Resource(resources.ModelResource):
         attribute='name',
     )
     creator = Field(
-        column_name='创建人',
+        column_name='创建者',
         attribute='creator',
         widget=widgets.ForeignKeyWidget(User, field='username'),
     )
