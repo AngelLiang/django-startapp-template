@@ -6,11 +6,23 @@ A template for django startproject and startapp.
 
 ## 使用示例
 
+### project模板使用示例
+
     # 使用 startproject_template 创建django项目模板
     django-admin startproject --template=startproject_template my_project
 
+    pip install my_project/requirements/requirements-config.txt
+    # use pipenv
+    pipenv install -r my_project/requirements/requirements-config.txt
+
+### app模板使用示例
+
     # 使用 app_name 创建django app模板
     django-admin startapp --template=app_name my_app
+
+    pip install my_app/requirements.txt
+    # use pipenv
+    pipenv install -r my_app/requirements.txt
 
 ## startproject_template 模板说明
 
@@ -40,6 +52,7 @@ A template for django startproject and startapp.
 ├─templates     # django 前端模板
 │   └─admin     # app的django admin的模板
 ├─__init__.py   # 使本目录作为python包
+├─apps.py       # django app
 ├─tests.py      # 测试代码
 ├─urls.py       # 本app的URL路由
 └─views.py      # 本app的视图代码
