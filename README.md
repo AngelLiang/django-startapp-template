@@ -7,7 +7,7 @@ A template for django startproject and startapp.
 ## 使用示例
 
     # 使用 startproject_template 创建django项目模板
-    django-admin startproject --template=startproject_template my_project .
+    django-admin startproject --template=startproject_template my_project
 
     # 使用 app_name 创建django app模板
     django-admin startapp --template=app_name my_app
