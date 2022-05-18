@@ -4,3 +4,4 @@ whitenoise
 waitress
 djangorestframework
 djangorestframework-camel-case
+drf-yasg
