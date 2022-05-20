@@ -27,6 +27,8 @@ DB_CONFIGS = {
 }
 
 DB_TYPE = env('DB_TYPE', default='sqlite')
+
+# https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
 DATABASES = {
     'default': DB_CONFIGS[DB_TYPE],
 }

@@ -7,6 +7,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
 ]
 
+# https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#installed-apps
 INSTALLED_APPS = [
     'simpleui',
     'django.contrib.admin',
