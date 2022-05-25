@@ -5,11 +5,11 @@ from config.env import env
 
 DB_CONFIGS = {
     'sqlite': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.sqlite3'),
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
     'mysql': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.mysql'),
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': env('DB_NAME', default='{{project_name}}'),
         'USER': env('DB_USER', default='root'),
         'PASSWORD': env('DB_PASS', default='root'),
@@ -17,7 +17,7 @@ DB_CONFIGS = {
         'PORT': env.int('DB_PORT', default='3306'),
     },
     'pqsql': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env('DB_NAME', default='{{project_name}}'),
         'USER': env('DB_USER', default='postgres'),
         'PASSWORD': env('DB_PASS', default='postgres'),
