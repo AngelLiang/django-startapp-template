@@ -1,6 +1,7 @@
 from django.urls import path
-
+from .apis.{{app_name}} import {{camel_case_app_name}}ViewSet
 
 urlpatterns = [
-    # path('{{app_name}}', apiadmin_site.urls),
+    path('api/v1/{{app_name}}/{{app_name}}', {{camel_case_app_name}}ViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('api/v1/{{app_name}}/{{app_name}}/<int:pk>', {{camel_case_app_name}}ViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'destroy'})),
 ]
