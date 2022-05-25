@@ -9,3 +9,4 @@ class {{camel_case_app_name}}Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = {{camel_case_app_name}}
+        fields = '__all__'
