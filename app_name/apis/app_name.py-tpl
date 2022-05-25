@@ -1,12 +1,37 @@
 from rest_framework import viewsets
+from rest_framework import serializers
+from django_filters import rest_framework as filters
 
 from ..models import {{camel_case_app_name}}
 from ..serializers.{{app_name}} import {{camel_case_app_name}}Serializer
 
 
 class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
+
+    class {{camel_case_app_name}}Filter(filters.FilterSet):
+        id = filters.NumberFilter(field_name='id')
+        title = filters.CharFilter(field_name='title')
+
+        class Meta:
+            model = {{camel_case_app_name}}
+            fields = ['id']
+
+    class {{camel_case_app_name}}FilterSerializer(serializers.Serializer):
+        id = serializers.IntegerField(required=False)
+        title = serializers.CharField(required=False)
+
+    class {{camel_case_app_name}}ListOutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = {{camel_case_app_name}}
+            fields = '__all__'
+
+    class {{camel_case_app_name}}DetailOutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = {{camel_case_app_name}}
+            fields = '__all__'
+
     queryset = {{camel_case_app_name}}.objects.all()
-    serializer_class = {{camel_case_app_name}}Serializer
+    serializer_class = {{camel_case_app_name}}ListOutputSerializer
 
     # for swagger tag
     tags = ['{{camel_case_app_name}}']
