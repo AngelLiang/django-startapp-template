@@ -16,6 +16,7 @@ class {{camel_case_app_name}}Admin(ImportExportMixin, admin.ModelAdmin):
     list_display = ('name', 'creator', 'created_at')
     list_filter = ()
     sortable_by = ()
+    ordering = ()
     # add_fieldsets = (
     #     (None, {
     #         'fields': ('name',)
