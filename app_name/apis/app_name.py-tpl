@@ -1,3 +1,5 @@
+from django.urls import path
+
 from rest_framework import viewsets
 from rest_framework import serializers
 from django_filters import rest_framework as filters
@@ -6,32 +8,42 @@ from ..models import {{camel_case_app_name}}
 from ..serializers.{{app_name}} import {{camel_case_app_name}}Serializer
 
 
+class {{camel_case_app_name}}Filter(filters.FilterSet):
+    id = filters.NumberFilter(field_name='id')
+    title = filters.CharFilter(field_name='title')
+
+    class Meta:
+        model = {{camel_case_app_name}}
+        fields = ['id']
+
+
+class {{camel_case_app_name}}FilterSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    title = serializers.CharField(required=False)
+
+
+class {{camel_case_app_name}}Serializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False, read_only=True)
+    title = serializers.CharField(label='标题', required=True)
+    intro = serializers.CharField(label='简介', required=False)
+    created_at = serializers.DateTimeField(label='创建时间', required=False, read_only=True)
+    updated_at = serializers.DateTimeField(label='更新时间', required=False, read_only=True)
+
+    class Meta:
+        model = {{camel_case_app_name}}
+        fields = [
+            'id',
+            'title',
+            'intro',
+            'created_at',
+            'updated_at',
+        ]
+
+
 class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
 
-    class {{camel_case_app_name}}Filter(filters.FilterSet):
-        id = filters.NumberFilter(field_name='id')
-        title = filters.CharFilter(field_name='title')
-
-        class Meta:
-            model = {{camel_case_app_name}}
-            fields = ['id']
-
-    class {{camel_case_app_name}}FilterSerializer(serializers.Serializer):
-        id = serializers.IntegerField(required=False)
-        title = serializers.CharField(required=False)
-
-    class {{camel_case_app_name}}ListOutputSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = {{camel_case_app_name}}
-            fields = '__all__'
-
-    class {{camel_case_app_name}}DetailOutputSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = {{camel_case_app_name}}
-            fields = '__all__'
-
     queryset = {{camel_case_app_name}}.objects.all()
-    serializer_class = {{camel_case_app_name}}ListOutputSerializer
+    serializer_class = {{camel_case_app_name}}Serializer
 
     # for swagger tag
     tags = ['{{camel_case_app_name}}']
@@ -69,3 +81,9 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
 
 {{app_name}}_list = {{camel_case_app_name}}ViewSet.as_view({'get': 'list', 'post': 'create'})
 {{app_name}}_detail = {{camel_case_app_name}}ViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'destroy'})
+
+
+{{app_name}}_urls = [
+    path('{{app_name}}/{{app_name}}', {{app_name}}_list),
+    path('{{app_name}}/{{app_name}}/<int:pk>', {{app_name}}_detail),
+]
