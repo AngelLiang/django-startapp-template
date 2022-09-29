@@ -3,23 +3,30 @@ from django.urls import path
 from rest_framework import viewsets
 from rest_framework import serializers
 from django_filters import rest_framework as filters
+import django_filters
+from drf_yasg.utils import swagger_auto_schema
 
 from ..models import {{camel_case_app_name}}
 from ..serializers.{{app_name}} import {{camel_case_app_name}}Serializer
+from ..filters.{{app_name}} import {{camel_case_app_name}}Filter
 
 
-class {{camel_case_app_name}}Filter(filters.FilterSet):
-    id = filters.NumberFilter(field_name='id')
-    title = filters.CharFilter(field_name='title')
-
-    class Meta:
-        model = {{camel_case_app_name}}
-        fields = ['id']
+class CustomOrderingFilter(filters.OrderingFilter):
+    def get_schema_fields(self, view):
+        if hasattr(view, 'ordering_fields'):
+            self.ordering_description = "可以排序的字段：" + ', '.join(view.ordering_fields)
+        return super().get_schema_fields(view)
 
 
-class {{camel_case_app_name}}FilterSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=False)
-    title = serializers.CharField(required=False)
+class {{camel_case_app_name}}OrderingFilter(CustomOrderingFilter):
+
+    def filter_queryset(self, request, queryset, view):
+        ordering = self.get_ordering(request, queryset, view)
+
+        if ordering:
+            queryset = queryset.order_by(*ordering)
+        # print(queryset)
+        return queryset
 
 
 class {{camel_case_app_name}}Serializer(serializers.ModelSerializer):
@@ -43,7 +50,18 @@ class {{camel_case_app_name}}Serializer(serializers.ModelSerializer):
 class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
 
     queryset = {{camel_case_app_name}}.objects.all()
+    filterset_class = {{camel_case_app_name}}Filter
     serializer_class = {{camel_case_app_name}}Serializer
+    filter_backends = [
+        filters.SearchFilter,
+        django_filters.rest_framework.DjangoFilterBackend,
+        {{camel_case_app_name}}Serializer,
+    ]
+    ordering_fields = [
+        'id', 'created_at', 'updated_at',
+    ]
+    # ordering = ['id']
+    search_fields = ['title',]
 
     # for swagger tag
     tags = ['{{camel_case_app_name}}']

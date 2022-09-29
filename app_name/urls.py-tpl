@@ -1,8 +1,7 @@
-from django.urls import path
-from .apis.{{app_name}} import {{app_name}}_list, {{app_name}}_detail
+from django.urls import path, include
+from .apis.{{app_name}} import {{app_name}}_urls
 
 
 urlpatterns = [
-    path('api/v1/{{app_name}}/{{app_name}}', {{app_name}}_list,
-    path('api/v1/{{app_name}}/{{app_name}}/<int:pk>', {{app_name}}_detail,
+    path('api/', include({{app_name}}_urls))
 ]

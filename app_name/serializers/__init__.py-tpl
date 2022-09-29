@@ -1,1 +1,1 @@
-from {{app_name}} import {{camel_case_app_name}}Serializer
+from .{{app_name}} import {{camel_case_app_name}}Serializer

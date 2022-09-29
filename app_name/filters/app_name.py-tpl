@@ -1,0 +1,23 @@
+from django_filters.rest_framework import FilterSet
+from django_filters.rest_framework import NumberFilter
+from django_filters.rest_framework import CharFilter
+
+
+from ..models import {{camel_case_app_name}}
+
+
+class {{camel_case_app_name}}Filter(FilterSet):
+    id = NumberFilter(field_name='id')
+    ids = CharFilter(label='ids', method='filter_ids', help_text='1,2,3')
+    title = CharFilter(field_name='title')
+
+    class Meta:
+        model = {{camel_case_app_name}}
+        fields = [
+            'id',
+            'ids',
+            'title',
+        ]
+
+    def filter_ids(self, queryset, name, value):
+        return queryset.filter(id__in=value.split(','))
