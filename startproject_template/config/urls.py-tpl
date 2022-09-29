@@ -21,3 +21,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+api_urlpatterns = [
+    
+]
+
+# 添加 swagger 文档
+from .urls_swagger import urlpatterns as swagger_urls
+urlpatterns = urlpatterns + api_urlpatterns + swagger_urls
