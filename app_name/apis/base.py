@@ -47,7 +47,7 @@ class BaseAPIView:
         """客制化校验失败的返回响应"""
         # from .response import result_fail
         response = Response({
-            'code': 4001,
+            'code': 0,
             'self': self.request.get_full_path(),
             'errors': exc.get_full_details(),
         })
@@ -64,8 +64,8 @@ class BaseAPIView:
             auth_header = self.get_authenticate_header(self.request)
             if auth_header:
                 exc.auth_header = auth_header
-            response = responsecode.NotAuthenticatedError.get_response(
-                self.request)
+            data = {'code': 0, 'msg': '没有认证', 'data': None}
+            response = Response(data, status=status.HTTP_200_OK)
             response.exception = True
             return response
             # return result_fail('Full authentication is required to access this resource', 'token expire', None)
@@ -76,25 +76,26 @@ class BaseAPIView:
             #     resp = exc.args[0]
             #     resp_json = resp.json()
             #     # return result_fail(resp_json['data'], resp_json['msg'], resp_json['errCode'])
-            response = responsecode.AuthenticationFailedError.get_response(
-                self.request)
+            data = {'code': 0, 'msg': '认证失败', 'data': None}
+            response = Response(data, status=status.HTTP_200_OK)
             response.exception = True
             return response
-            # return result_fail('Invalid token', 'token expire', None)
         elif isinstance(exc, (exceptions.NotFound, Http404)):
-            response = responsecode.NotFoundError.get_response(self.request)
+            data = {'code': 0, 'msg': 'NotFound', 'data': None}
+            response = Response(data, status=status.HTTP_200_OK)
             response.exception = True
             return response
         elif isinstance(exc, exceptions.PermissionDenied):
             """没有权限"""
-            response = responsecode.NotFoundError.get_response(self.request)
+            data = {'code': 0, 'msg': '没有权限', 'data': None}
+            response = Response(data, status=status.HTTP_200_OK)
             response.exception = True
             return response
         elif isinstance(exc, exceptions.Throttled):
             """超速"""
             wait = exc.wait
-            response = responsecode.ThrottledError.get_response(
-                self.request, f'请求超过了限速。还剩{wait}秒。')
+            data = {'code': 0, 'msg': f'请求超过了限速。还剩{wait}秒。', 'data': None}
+            response = Response(data, status=status.HTTP_200_OK)
             response.exception = True
             return response
         elif isinstance(exc, serializers.ValidationError):
