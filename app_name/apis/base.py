@@ -12,7 +12,8 @@ from django.http.response import Http404
 class CustomOrderingFilter(filters.OrderingFilter):
     def get_schema_fields(self, view):
         if hasattr(view, 'ordering_fields'):
-            self.ordering_description = "可以排序的字段：" + ', '.join(view.ordering_fields)
+            self.ordering_description = "可以排序的字段：" + \
+                ', '.join(view.ordering_fields)
         return super().get_schema_fields(view)
 
 
@@ -50,6 +51,9 @@ class BaseAPIView:
     def get_queryset(self):
         return super().get_queryset()
 
+
+class ErrorHandlerMixin:
+
     def handle_validation_error(self, exc):
         """客制化校验失败的返回响应"""
         # from .response import result_fail
@@ -59,7 +63,6 @@ class BaseAPIView:
             'errors': exc.get_full_details(),
         })
         return response
-        # return result_fail(None, str(exc.get_full_details()), 4001)
 
     def handle_exception(self, exc):
         """
