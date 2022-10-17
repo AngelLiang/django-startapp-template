@@ -92,8 +92,8 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
 
         instance = serializer.instance
         serializer = self.output_serializer(instance)
-
-        return success_response(data=serializer.data)
+        data = serializer.data
+        return success_response(request, data=data)
 
     @swagger_auto_schema(
         operation_summary='获取{{camel_case_app_name}}详情',
@@ -103,13 +103,14 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         serializer = self.output_serializer(instance)
         data = serializer.data
-        return success_response(data)
+        return success_response(request, data=data)
 
     @swagger_auto_schema(
         operation_summary='更新{{camel_case_app_name}}',
         tags=tags
     )
     def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.input_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
@@ -122,7 +123,7 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
 
         serializer = self.output_serializer(instance)
         # return Response(serializer.data)
-        return result_success(serializer.data)
+        return success_response(request, data=data)
 
     @swagger_auto_schema(
         operation_summary='差异更新{{camel_case_app_name}}',
@@ -139,7 +140,7 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None, **kwargs):
         instance = self.get_object()
         instance.delete()
-        return success_response(None)
+        return success_response(request)
 
 
 {{app_name}}_list_api = {{camel_case_app_name}}ViewSet.as_view({'get': 'list', 'post': 'create'})
