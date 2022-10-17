@@ -9,6 +9,13 @@ import django_filters
 from django.http.response import Http404
 
 
+class CustomOrderingFilter(filters.OrderingFilter):
+    def get_schema_fields(self, view):
+        if hasattr(view, 'ordering_fields'):
+            self.ordering_description = "可以排序的字段：" + ', '.join(view.ordering_fields)
+        return super().get_schema_fields(view)
+
+
 class BaseAPIView:
     authentication_classes = [
         # authentication.SessionAuthentication,

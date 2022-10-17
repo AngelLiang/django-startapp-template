@@ -97,11 +97,11 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
         return super().destroy(request, pk=None, **kwargs)
 
 
-{{app_name}}_list = {{camel_case_app_name}}ViewSet.as_view({'get': 'list', 'post': 'create'})
-{{app_name}}_detail = {{camel_case_app_name}}ViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'destroy'})
+{{app_name}}_list_api = {{camel_case_app_name}}ViewSet.as_view({'get': 'list', 'post': 'create'})
+{{app_name}}_detail_api = {{camel_case_app_name}}ViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'destroy'})
 
 
 {{app_name}}_urls = [
-    path('{{app_name}}/{{app_name}}', {{app_name}}_list),
-    path('{{app_name}}/{{app_name}}/<int:pk>', {{app_name}}_detail),
+    path('{{app_name}}/{{app_name}}', {{app_name}}_list_api),
+    path('{{app_name}}/{{app_name}}/<int:pk>', {{app_name}}_detail_api),
 ]
