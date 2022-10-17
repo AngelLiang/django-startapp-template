@@ -66,44 +66,84 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
     # for swagger tag
     tags = ['{{camel_case_app_name}}']
 
+    input_serializer = {{camel_case_app_name}}InputSerializer
+    output_serializer = {{camel_case_app_name}}OutputSerializer
+
     @swagger_auto_schema(
         operation_summary='获取{{camel_case_app_name}}列表',
         tags=tags
     )
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset) or queryset
+        serializer = self.output_serializer(page, many=True)
+        data = serializer.data
+        return self.get_paginated_response(data)
 
     @swagger_auto_schema(
         operation_summary='创建{{camel_case_app_name}}',
         tags=tags
     )
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        serializer = self.input_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        # headers = self.get_success_headers(serializer.data)
+
+        instance = serializer.instance
+        serializer = self.output_serializer(instance)
+
+        return success_response(data=serializer.data)
 
     @swagger_auto_schema(
         operation_summary='获取{{camel_case_app_name}}详情',
         tags=tags
     )
     def retrieve(self, request, pk=None, **kwargs):
-        return super().retrieve(request, pk=None, **kwargs)
+        instance = self.get_object()
+        serializer = self.output_serializer(instance)
+        data = serializer.data
+        return success_response(data)
 
     @swagger_auto_schema(
         operation_summary='更新{{camel_case_app_name}}',
         tags=tags
     )
     def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+        instance = self.get_object()
+        serializer = self.input_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        serializer = self.output_serializer(instance)
+        # return Response(serializer.data)
+        return result_success(serializer.data)
+
+    @swagger_auto_schema(
+        operation_summary='差异更新{{camel_case_app_name}}',
+        tags=tags
+    )
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='删除{{camel_case_app_name}}',
         tags=tags
     )
     def destroy(self, request, pk=None, **kwargs):
-        return super().destroy(request, pk=None, **kwargs)
+        instance = self.get_object()
+        instance.delete()
+        return success_response(None)
 
 
 {{app_name}}_list_api = {{camel_case_app_name}}ViewSet.as_view({'get': 'list', 'post': 'create'})
-{{app_name}}_detail_api = {{camel_case_app_name}}ViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'destroy'})
+{{app_name}}_detail_api = {{camel_case_app_name}}ViewSet.as_view({'get': 'retrieve', 'post': 'update', 'put': 'partial_update', 'delete': 'destroy'})
 
 
 {{app_name}}_urls = [
