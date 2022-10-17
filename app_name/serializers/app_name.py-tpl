@@ -2,11 +2,48 @@ from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
 
-from ..models import {{camel_case_app_name}}
 from .base import DynamicFieldsModelSerializer
+from ..models import {{camel_case_app_name}}
 
 
 class {{camel_case_app_name}}Serializer(DynamicFieldsModelSerializer):
+    id = serializers.IntegerField(required=False, read_only=True)
+    title = serializers.CharField(label='标题', required=True)
+    intro = serializers.CharField(label='简介', required=False)
+    created_at = serializers.DateTimeField(label='创建时间', required=False, read_only=True)
+    updated_at = serializers.DateTimeField(label='更新时间', required=False, read_only=True)
+
+    class Meta:
+        model = {{camel_case_app_name}}
+        fields = [
+            'id',
+            'title',
+            'intro',
+            'created_at',
+            'updated_at',
+        ]
+
+
+
+class {{camel_case_app_name}}InputSerializer(DynamicFieldsModelSerializer):
+    id = serializers.IntegerField(required=False, read_only=True)
+    title = serializers.CharField(label='标题', required=True)
+    intro = serializers.CharField(label='简介', required=False)
+    created_at = serializers.DateTimeField(label='创建时间', required=False, read_only=True)
+    updated_at = serializers.DateTimeField(label='更新时间', required=False, read_only=True)
+
+    class Meta:
+        model = {{camel_case_app_name}}
+        fields = [
+            'id',
+            'title',
+            'intro',
+            'created_at',
+            'updated_at',
+        ]
+
+
+class {{camel_case_app_name}}OutputSerializer(DynamicFieldsModelSerializer):
     id = serializers.IntegerField(required=False, read_only=True)
     title = serializers.CharField(label='标题', required=True)
     intro = serializers.CharField(label='简介', required=False)
