@@ -67,30 +67,35 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
     tags = ['{{camel_case_app_name}}']
 
     @swagger_auto_schema(
+        operation_summary='获取{{camel_case_app_name}}列表',
         tags=tags
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
     @swagger_auto_schema(
+        operation_summary='创建{{camel_case_app_name}}',
         tags=tags
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
     @swagger_auto_schema(
+        operation_summary='获取{{camel_case_app_name}}详情',
         tags=tags
     )
     def retrieve(self, request, pk=None, **kwargs):
         return super().retrieve(request, pk=None, **kwargs)
 
     @swagger_auto_schema(
+        operation_summary='更新{{camel_case_app_name}}',
         tags=tags
     )
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
     @swagger_auto_schema(
+        operation_summary='删除{{camel_case_app_name}}',
         tags=tags
     )
     def destroy(self, request, pk=None, **kwargs):
