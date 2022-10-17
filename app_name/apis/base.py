@@ -5,6 +5,8 @@ from rest_framework import filters
 from rest_framework import serializers
 import django_filters
 
+from ..utils.pagination import CustomPageNumberPagination
+
 
 from django.http.response import Http404
 
@@ -26,7 +28,7 @@ class BaseAPIView:
     permission_classes = [
         # permissions.IsAuthenticated
     ]
-    # pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberPagination
     filter_backends = [
         filters.SearchFilter,
         django_filters.rest_framework.DjangoFilterBackend,
@@ -37,13 +39,6 @@ class BaseAPIView:
 
     input_serializer_class = None
     output_serializer_class = None
-
-    def get_serializer_class(self):
-        return self.serializer_class
-
-    def get_input_serializer_class(self, *args, **kwargs):
-        serializer = self.input_serializer_class(*args, **kwargs)
-        return serializer
 
     def get_model(self):
         return self.queryset.model
