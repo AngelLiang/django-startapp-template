@@ -76,7 +76,7 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset) or queryset
-        serializer = self.output_serializer(page, many=True)
+        serializer = self.output_serializer(page, many=True, , context={'request': request})
         data = serializer.data
         return self.get_paginated_response(data)
 
@@ -101,7 +101,7 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
     )
     def retrieve(self, request, pk=None, **kwargs):
         instance = self.get_object()
-        serializer = self.output_serializer(instance)
+        serializer = self.output_serializer(instance, context={'request': request})
         data = serializer.data
         return success_response(request, data=data)
 
@@ -121,7 +121,7 @@ class {{camel_case_app_name}}ViewSet(viewsets.ModelViewSet):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
-        serializer = self.output_serializer(instance)
+        serializer = self.output_serializer(instance, context={'request': request})
         # return Response(serializer.data)
         return success_response(request, data=data)
 
